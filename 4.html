@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+    <title>081417257文春生</title>
+    <link rel="short icon" href="Resource/icon.png">
+    <link rel="stylesheet" href="1.css">
+    <style>
+        article{
+            margin: 20px;
+
+        }
+        h3{
+            color: red;
+            font-size: 18px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #dddddd;
+        }
+        h4{
+            font-size: 14px;
+        }
+        p{
+            font-size: 12px;
+            text-indent: 2em;
+        }
+        </style>
+</head>
+<!--1-->
+<body>
+<header>
+    <span>平台风采</span>
+</header>
+<!--2.图片-->
+<section class="seca">
+    <img src="Resource/banner4.png" alt="666">
+</section>
+<!--3-->
+<article>
+    <h3 id="title"></h3>
+    <h4 id="subtitle"></h4>
+    <p id="info"></p>
+    <script>
+        //定义公共部分的函数
+        function assgin(obj) {
+            var title_tag=document.getElementById("title")
+            var subtitle_tag=document.getElementById("subtitle")
+            var info_tag=document.getElementById("info");
+            title_tag.innerHTML=obj.title;
+            subtitle_tag.innerHTML=obj.subtitle
+            info_tag.innerHTML=obj.info;
+        }
+        //删除缓存中内容用：localStorage.remove
+        var obj_text=JSON.parse(localStorage.getItem("platform_json"));
+        if(obj_text){
+            var obj=obj_text.data
+            assgin(obj)
+        }else{
+            //建立网络请求
+            var xhr=new XMLHttpRequest();
+            //建立连接
+            xhr.open('get','https://mockapi.eolinker.com/2ZhGVxjacb39010e6753bd9c02ee803e6e3bfeab6e8007c/aboutus');
+            //设置请求头
+            xhr.setRequestHeader("content-type","application/x-www-form-urlencoded")
+            //传递参数
+            xhr.send();
+            //获取返回值
+            xhr.onreadystatechange=function (ev) {
+                if (xhr.readyState==4 && xhr.status==200){
+                    //解析数据
+                    var responseData= JSON.parse(xhr.responseText)
+                    var obj=responseData.data;
+                    window.localStorage.setItem("platform_json",xhr.responseText)
+                    //window.localStorage.setItem("platform_obj",obj);这是存储的是对象
+                    assgin(obj)
+
+                }
+            }
+        }
+    </script>
+</article>
+<footer>
+    <a href="1.html"><img src="Resource/nav10.png" alt=""><span>小滴服务</span></a>
+    <a href="2.html"><img src="Resource/nav20.png" alt=""><span>企业项目</span></a>
+    <a href="3.html"><img src="Resource/nav30.png" alt=""><span>服务流程</span></a>
+    <a href=""><img src="Resource/nav41.png" alt=""><span style="color: red">平台风采</span></a>
+    <a href="5.html"><img src="Resource/nav50.png" alt=""><span>我的小滴</span></a>
+</footer>
+</body>
+
+</html>
